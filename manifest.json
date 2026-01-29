@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "GitHub Review Notifier",
+  "name": "GitFlowy",
   "version": "0.1.0",
-  "description": "Badge + in-page panel for PRs requesting your review.",
+  "description": "Stop being the bottleneck. Clear your PR backlog with traffic-light precision.",
   "permissions": ["storage", "alarms", "activeTab"],
   "host_permissions": ["https://github.com/*", "https://api.github.com/*"],
   "background": { "service_worker": "background.js" },
