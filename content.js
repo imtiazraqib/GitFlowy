@@ -28,18 +28,18 @@ function findFiltersRow() {
 
 function makePanel({ items, count, color, urgencyHours }) {
   const panel = document.createElement("div");
-  panel.className = "ghrn-panel";
-  panel.dataset.ghrn = "true";
+  panel.className = "gf-panel";
+  panel.dataset.gf = "true";
 
   const header = document.createElement("div");
-  header.className = "ghrn-header";
+  header.className = "gf-header";
 
   const title = document.createElement("div");
-  title.className = "ghrn-title";
+  title.className = "gf-title";
   title.textContent = "Requested reviews (You)";
 
   const pill = document.createElement("div");
-  pill.className = "ghrn-pill";
+  pill.className = "gf-pill";
   pill.textContent = `${count} open`;
   pill.style.borderColor = color;
   pill.style.color = color;
@@ -48,7 +48,7 @@ function makePanel({ items, count, color, urgencyHours }) {
   header.appendChild(pill);
 
   const list = document.createElement("div");
-  list.className = "ghrn-list";
+  list.className = "gf-list";
 
   const top = items.slice(0, 5);
   if (top.length === 0) {
@@ -60,7 +60,7 @@ function makePanel({ items, count, color, urgencyHours }) {
   } else {
     for (const pr of top) {
       const row = document.createElement("div");
-      row.className = "ghrn-item";
+      row.className = "gf-item";
 
       const a = document.createElement("a");
       a.href = pr.url;
@@ -70,7 +70,7 @@ function makePanel({ items, count, color, urgencyHours }) {
 
       const ageH = hoursBetween(pr.updated_at);
       const age = document.createElement("div");
-      age.className = "ghrn-age";
+      age.className = "gf-age";
       age.textContent = `${fmtAgeHours(ageH)} • ${pr.repo}#${pr.number}`;
 
       row.appendChild(a);
@@ -94,13 +94,13 @@ function makePanel({ items, count, color, urgencyHours }) {
 }
 
 function removeExistingPanel() {
-  document.querySelectorAll('[data-ghrn="true"]').forEach((n) => n.remove());
+  document.querySelectorAll('[data-gf="true"]').forEach((n) => n.remove());
 }
 
 function urgencyClass(ageHours, urgencyHours) {
-  if (ageHours >= urgencyHours) return "ghrn-border-red";
-  if (ageHours >= 1) return "ghrn-border-yellow";
-  return "ghrn-border-green";
+  if (ageHours >= urgencyHours) return "gf-border-red";
+  if (ageHours >= 1) return "gf-border-yellow";
+  return "gf-border-green";
 }
 
 function highlightRows(items, urgencyHours) {
@@ -124,7 +124,7 @@ function highlightRows(items, urgencyHours) {
     const cls = byUrl.get(abs);
     if (!cls) continue;
 
-    row.classList.remove("ghrn-border-green", "ghrn-border-yellow", "ghrn-border-red");
+    row.classList.remove("gf-border-green", "gf-border-yellow", "gf-border-red");
     row.classList.add(cls);
   }
 }
@@ -141,9 +141,9 @@ async function render() {
 
   if (latestError) {
     const err = document.createElement("div");
-    err.className = "ghrn-panel";
-    err.dataset.ghrn = "true";
-    err.textContent = `GitHub Review Notifier: ${latestError}`;
+    err.className = "gf-panel";
+    err.dataset.gf = "true";
+    err.textContent = `GitFlowy: ${latestError}`;
     filtersRow.parentElement.insertBefore(err, filtersRow);
     return;
   }
