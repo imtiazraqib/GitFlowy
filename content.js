@@ -14,16 +14,17 @@ async function getData() {
   return { latestReviews, latestError, urgencyHours: Number(urgencyHours || 24) };
 }
 
-function findInsertPoint() {
-  // GitHub changes DOM often. We try a couple of stable-ish anchors.
-  // Target: above the "Filters" bar on /pulls.
-  const filtersBar =
-    document.querySelector('div.subnav') ||
-    document.querySelector('[aria-label="Issues"]') ||
-    document.querySelector('form[role="search"]');
+function findFiltersRow() {
+  // The actual filters/search row is usually `div.subnav`
+  const subnav = document.querySelector("div.subnav");
 
-  return filtersBar?.parentElement || null;
+  // Walk up to the flex row that contains it
+  // (This is the thing we *must not* inject into)
+  const row = subnav?.closest("div.d-flex") || subnav;
+
+  return row || null;
 }
+
 
 function makePanel({ items, count, color, urgencyHours }) {
   const panel = document.createElement("div");
@@ -129,22 +130,21 @@ function highlightRows(items, urgencyHours) {
 }
 
 async function render() {
-  // Only on /pulls
   if (!/\/pulls/.test(location.pathname)) return;
 
   const { latestReviews, latestError, urgencyHours } = await getData();
 
   removeExistingPanel();
 
-  const insertPoint = findInsertPoint();
-  if (!insertPoint) return;
+  const filtersRow = findFiltersRow();
+  if (!filtersRow || !filtersRow.parentElement) return;
 
   if (latestError) {
     const err = document.createElement("div");
     err.className = "ghrn-panel";
     err.dataset.ghrn = "true";
     err.textContent = `GitHub Review Notifier: ${latestError}`;
-    insertPoint.prepend(err);
+    filtersRow.parentElement.insertBefore(err, filtersRow);
     return;
   }
 
@@ -157,9 +157,11 @@ async function render() {
     urgencyHours
   });
 
-  insertPoint.prepend(panel);
+  filtersRow.parentElement.insertBefore(panel, filtersRow);
+
   highlightRows(latestReviews.items || [], urgencyHours);
 }
+
 
 // Re-render on SPA-ish navigation
 let lastUrl = location.href;

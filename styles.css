@@ -1,5 +1,7 @@
 /* Panel container */
 .ghrn-panel {
+  width: 100%;
+  box-sizing: border-box;
   border: 1px solid var(--borderColor-default, #d0d7de);
   border-radius: 6px;
   padding: 12px;
