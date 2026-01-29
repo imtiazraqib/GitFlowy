@@ -14,16 +14,16 @@ async function getData() {
   return { latestReviews, latestError, urgencyHours: Number(urgencyHours || 24) };
 }
 
-function findFiltersRow() {
-  // The actual filters/search row is usually `div.subnav`
-  const subnav = document.querySelector("div.subnav");
-
-  // Walk up to the flex row that contains it
-  // (This is the thing we *must not* inject into)
-  const row = subnav?.closest("div.d-flex") || subnav;
-
-  return row || null;
+function findPRListBox() {
+  // This is the big container that wraps the PR list
+  return (
+    document.querySelector('div.Box.mt-3.Box--responsive') ||
+    document.querySelector('div.Box.mt-3') ||
+    document.querySelector('div[aria-label="Pull requests"]') ||
+    null
+  );
 }
+
 
 
 function makePanel({ items, count, color, urgencyHours }) {
@@ -136,15 +136,15 @@ async function render() {
 
   removeExistingPanel();
 
-  const filtersRow = findFiltersRow();
-  if (!filtersRow || !filtersRow.parentElement) return;
+  const prListBox = findPRListBox();
+  if (!prListBox || !prListBox.parentElement) return;
 
   if (latestError) {
     const err = document.createElement("div");
-    err.className = "gf-panel";
-    err.dataset.gf = "true";
-    err.textContent = `GitFlowy: ${latestError}`;
-    filtersRow.parentElement.insertBefore(err, filtersRow);
+    err.className = "ghrn-panel";
+    err.dataset.ghrn = "true";
+    err.textContent = `GitHub Review Notifier: ${latestError}`;
+    prListBox.parentElement.insertBefore(err, prListBox);
     return;
   }
 
@@ -157,7 +157,8 @@ async function render() {
     urgencyHours
   });
 
-  filtersRow.parentElement.insertBefore(panel, filtersRow);
+  // ✅ Insert panel directly above the PR list container
+  prListBox.parentElement.insertBefore(panel, prListBox);
 
   highlightRows(latestReviews.items || [], urgencyHours);
 }
