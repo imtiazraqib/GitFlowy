@@ -1,0 +1,180 @@
+function hoursBetween(iso) {
+  const t = new Date(iso).getTime();
+  return (Date.now() - t) / 36e5;
+}
+function fmtAgeHours(h) {
+  if (h < 1) return `${Math.round(h * 60)}m`;
+  if (h < 48) return `${Math.round(h)}h`;
+  return `${Math.round(h / 24)}d`;
+}
+
+async function getData() {
+  const { latestReviews, latestError } = await chrome.storage.local.get(["latestReviews", "latestError"]);
+  const { urgencyHours } = await chrome.storage.sync.get(["urgencyHours"]);
+  return { latestReviews, latestError, urgencyHours: Number(urgencyHours || 24) };
+}
+
+function findInsertPoint() {
+  // GitHub changes DOM often. We try a couple of stable-ish anchors.
+  // Target: above the "Filters" bar on /pulls.
+  const filtersBar =
+    document.querySelector('div.subnav') ||
+    document.querySelector('[aria-label="Issues"]') ||
+    document.querySelector('form[role="search"]');
+
+  return filtersBar?.parentElement || null;
+}
+
+function makePanel({ items, count, color, urgencyHours }) {
+  const panel = document.createElement("div");
+  panel.className = "ghrn-panel";
+  panel.dataset.ghrn = "true";
+
+  const header = document.createElement("div");
+  header.className = "ghrn-header";
+
+  const title = document.createElement("div");
+  title.className = "ghrn-title";
+  title.textContent = "Requested reviews (You)";
+
+  const pill = document.createElement("div");
+  pill.className = "ghrn-pill";
+  pill.textContent = `${count} open`;
+  pill.style.borderColor = color;
+  pill.style.color = color;
+
+  header.appendChild(title);
+  header.appendChild(pill);
+
+  const list = document.createElement("div");
+  list.className = "ghrn-list";
+
+  const top = items.slice(0, 5);
+  if (top.length === 0) {
+    const empty = document.createElement("div");
+    empty.style.color = "var(--fgColor-muted, #656d76)";
+    empty.style.fontSize = "13px";
+    empty.textContent = "No PRs currently requesting your review 🎉";
+    list.appendChild(empty);
+  } else {
+    for (const pr of top) {
+      const row = document.createElement("div");
+      row.className = "ghrn-item";
+
+      const a = document.createElement("a");
+      a.href = pr.url;
+      a.target = "_blank";
+      a.rel = "noreferrer";
+      a.textContent = pr.title;
+
+      const ageH = hoursBetween(pr.updated_at);
+      const age = document.createElement("div");
+      age.className = "ghrn-age";
+      age.textContent = `${fmtAgeHours(ageH)} • ${pr.repo}#${pr.number}`;
+
+      row.appendChild(a);
+      row.appendChild(age);
+      list.appendChild(row);
+    }
+  }
+
+  panel.appendChild(header);
+  panel.appendChild(list);
+
+  // Small hint row
+  const hint = document.createElement("div");
+  hint.style.marginTop = "10px";
+  hint.style.fontSize = "12px";
+  hint.style.color = "var(--fgColor-muted, #656d76)";
+  hint.textContent = `Red = oldest updated ≥ ${urgencyHours}h (proxy).`;
+  panel.appendChild(hint);
+
+  return panel;
+}
+
+function removeExistingPanel() {
+  document.querySelectorAll('[data-ghrn="true"]').forEach((n) => n.remove());
+}
+
+function urgencyClass(ageHours, urgencyHours) {
+  if (ageHours >= urgencyHours) return "ghrn-border-red";
+  if (ageHours >= 1) return "ghrn-border-yellow";
+  return "ghrn-border-green";
+}
+
+function highlightRows(items, urgencyHours) {
+  // GitHub PR list items are often <div class="Box-row"> in a .js-navigation-container
+  const rows = Array.from(document.querySelectorAll(".js-navigation-container .Box-row, div.Box-row"));
+  if (!rows.length) return;
+
+  // Map PR URL -> class
+  const byUrl = new Map();
+  for (const pr of items) {
+    const ageH = hoursBetween(pr.updated_at);
+    byUrl.set(pr.url, urgencyClass(ageH, urgencyHours));
+  }
+
+  for (const row of rows) {
+    // Find link to PR
+    const link = row.querySelector('a[href*="/pull/"]');
+    if (!link) continue;
+
+    const abs = new URL(link.getAttribute("href"), location.origin).toString();
+    const cls = byUrl.get(abs);
+    if (!cls) continue;
+
+    row.classList.remove("ghrn-border-green", "ghrn-border-yellow", "ghrn-border-red");
+    row.classList.add(cls);
+  }
+}
+
+async function render() {
+  // Only on /pulls
+  if (!/\/pulls/.test(location.pathname)) return;
+
+  const { latestReviews, latestError, urgencyHours } = await getData();
+
+  removeExistingPanel();
+
+  const insertPoint = findInsertPoint();
+  if (!insertPoint) return;
+
+  if (latestError) {
+    const err = document.createElement("div");
+    err.className = "ghrn-panel";
+    err.dataset.ghrn = "true";
+    err.textContent = `GitHub Review Notifier: ${latestError}`;
+    insertPoint.prepend(err);
+    return;
+  }
+
+  if (!latestReviews) return;
+
+  const panel = makePanel({
+    items: latestReviews.items || [],
+    count: latestReviews.count || 0,
+    color: latestReviews.color || "#8c959f",
+    urgencyHours
+  });
+
+  insertPoint.prepend(panel);
+  highlightRows(latestReviews.items || [], urgencyHours);
+}
+
+// Re-render on SPA-ish navigation
+let lastUrl = location.href;
+setInterval(() => {
+  if (location.href !== lastUrl) {
+    lastUrl = location.href;
+    render();
+  }
+}, 800);
+
+// Also re-render when storage updates (badge refresh)
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "local" && (changes.latestReviews || changes.latestError)) {
+    render();
+  }
+});
+
+render();

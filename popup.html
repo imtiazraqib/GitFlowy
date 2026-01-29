@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 12px; width: 320px; }
+      label { display:block; font-size: 12px; margin-top: 10px; color:#444; }
+      input { width: 100%; padding: 8px; margin-top: 6px; box-sizing: border-box; }
+      button { margin-top: 12px; padding: 8px 10px; width: 100%; }
+      .hint { font-size: 12px; color:#666; margin-top: 8px; line-height: 1.35; }
+      .row { display:flex; gap:8px; }
+      .row input { flex: 1; }
+    </style>
+  </head>
+  <body>
+    <h3 style="margin:0 0 6px 0;">GitHub Review Notifier</h3>
+    <div class="hint">
+      Create a fine-grained PAT with read access to repos + PRs.
+      We store it locally in Chrome storage.
+    </div>
+
+    <label>GitHub token</label>
+    <input id="token" type="password" placeholder="ghp_..." />
+
+    <label>Scope</label>
+    <div class="row">
+      <input id="org" placeholder="org (optional)" />
+      <input id="repo" placeholder="repo (optional)" />
+    </div>
+    <div class="hint">Leave blank to search across all repos you can access (may be slower).</div>
+
+    <label>Urgency threshold (hours)</label>
+    <input id="threshold" type="number" min="1" value="24" />
+
+    <button id="save">Save</button>
+    <div id="status" class="hint"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
