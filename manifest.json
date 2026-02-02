@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GitFlowy",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Stop being the bottleneck. Clear your PR backlog with traffic-light precision.",
   "permissions": ["storage", "alarms", "activeTab"],
   "host_permissions": ["https://github.com/*", "https://api.github.com/*"],

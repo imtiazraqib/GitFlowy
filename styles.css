@@ -4,7 +4,6 @@
   box-sizing: border-box;
   border: 1px solid var(--borderColor-default, #d0d7de);
   border-radius: 6px;
-  padding: 12px;
   margin-bottom: 12px;
   background: var(--bgColor-default, #fff);
 }
@@ -25,12 +24,13 @@
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid var(--borderColor-default, #d0d7de);
+  background-color: #cf222e;
 }
 
 .gf-list {
   display: grid;
   gap: 6px;
+  padding: 12px;
 }
 
 .gf-item {

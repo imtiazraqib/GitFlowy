@@ -32,17 +32,17 @@ function makePanel({ items, count, color, urgencyHours }) {
   panel.dataset.gf = "true";
 
   const header = document.createElement("div");
-  header.className = "gf-header";
+  header.className = "Box-header d-flex flex-justify-between";
 
   const title = document.createElement("div");
   title.className = "gf-title";
-  title.textContent = "Requested reviews (You)";
+  title.textContent = "Requested Reviews";
 
   const pill = document.createElement("div");
   pill.className = "gf-pill";
   pill.textContent = `${count} open`;
   pill.style.borderColor = color;
-  pill.style.color = color;
+  pill.style.color = "#fff";
 
   header.appendChild(title);
   header.appendChild(pill);
@@ -82,14 +82,18 @@ function makePanel({ items, count, color, urgencyHours }) {
   panel.appendChild(header);
   panel.appendChild(list);
 
-  // Small hint row
+  // Small hint row at bottom create a legend for the color types with color boxes and time info
   const hint = document.createElement("div");
   hint.style.marginTop = "10px";
   hint.style.fontSize = "12px";
+  hint.style.padding = "12px";
   hint.style.color = "var(--fgColor-muted, #656d76)";
-  hint.textContent = `Red = oldest updated ≥ ${urgencyHours}h (proxy).`;
+  hint.innerHTML = `
+    <span style="color: #2da44e;">&#9679;</span> New &lt; 1h &nbsp;&nbsp;
+    <span style="color: #bf8700;">&#9679;</span> Updated ≥ 1h &nbsp;&nbsp;
+    <span style="color: #cf222e;">&#9679;</span> Oldest updated ≥ ${urgencyHours}h (proxy).
+  `;
   panel.appendChild(hint);
-
   return panel;
 }
 
@@ -141,9 +145,9 @@ async function render() {
 
   if (latestError) {
     const err = document.createElement("div");
-    err.className = "ghrn-panel";
-    err.dataset.ghrn = "true";
-    err.textContent = `GitHub Review Notifier: ${latestError}`;
+    err.className = "gf-panel";
+    err.dataset.gf = "true";
+    err.textContent = `GitFlowy: ${latestError}`;
     prListBox.parentElement.insertBefore(err, prListBox);
     return;
   }
