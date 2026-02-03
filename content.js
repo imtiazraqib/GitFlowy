@@ -88,10 +88,19 @@ function makePanel({ items, count, color, urgencyHours }) {
   hint.style.fontSize = "12px";
   hint.style.padding = "12px";
   hint.style.color = "var(--fgColor-muted, #656d76)";
+  hint.style.display = "flex";
+  hint.style.justifyContent = "space-between";
+  hint.style.alignItems = "center";
+  hint.style.borderTop = "1px solid var(--borderColor-default, #d0d7de)";
   hint.innerHTML = `
-    <span style="color: #2da44e;">&#9679;</span> New &lt; 1h &nbsp;&nbsp;
-    <span style="color: #bf8700;">&#9679;</span> Updated ≥ 1h &nbsp;&nbsp;
-    <span style="color: #cf222e;">&#9679;</span> Oldest updated ≥ ${urgencyHours}h (proxy).
+    <div>
+        <span style="color: #2da44e;">&#9679;</span> New &lt; 1h &nbsp;&nbsp;
+        <span style="color: #bf8700;">&#9679;</span> Updated ≥ 1h &nbsp;&nbsp;
+        <span style="color: #cf222e;">&#9679;</span> Oldest updated ≥ ${urgencyHours}h (proxy).
+    </div>
+    <div style="padding: 2px 10px; background: #0E402D; border-radius: 4px; color: white;">
+        <p style="margin: 0px;">Powered by GitFlowy</p>
+    </div>
   `;
   panel.appendChild(hint);
   return panel;
