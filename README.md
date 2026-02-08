@@ -24,7 +24,7 @@ In the era of AI-accelerated coding, the bottleneck has shifted from *writing* c
 
 ## 📦 Installation
 ### Download from Chrome Extension Store
-- Simple 1-click install: [Click Here](https://chromewebstore.com)
+- Simple 1-click install: [Click Here]([https://chromewebstore.com](https://chromewebstore.google.com/detail/gitflowy-visualize-pr-rev/oohljhpihallnpdodiakekkckahgphic))
 ### Local Installarion
 If you prefer to create a local copy, do the following:
 1. Clone this repository.
