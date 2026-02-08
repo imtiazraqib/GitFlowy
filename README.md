@@ -1,4 +1,4 @@
-# GitFlowy 🌊🚦
+# GitFlowy Chrome Extension
 
 **GitFlowy** is a lightweight Chrome extension designed to unblock development teams. By providing instant visibility into pending pull request reviews directly within the GitHub UI, it ensures that "Review Requested" never becomes a graveyard.
 
