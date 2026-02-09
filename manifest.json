@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GitFlowy | Visualize PR Review Requests",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Stop being the bottleneck. Clear your PR backlog with traffic-light precision.",
   "permissions": ["storage", "alarms", "activeTab"],
   "host_permissions": ["https://github.com/*", "https://api.github.com/*"],

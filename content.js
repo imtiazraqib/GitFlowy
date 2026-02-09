@@ -154,11 +154,13 @@ async function render() {
 
   if (latestError) {
     const err = document.createElement("div");
-    err.className = "Box-header d-flex flex-justify-between align-items-center";
+    err.className = "Box-header d-flex flex-justify-between";
+    err.style.alignItems = "center";
     err.dataset.gf = "true";
     err.innerHTML = `
       <div class="color-fg-danger">
-        <p style="margin: 0px;">GitFlowy Error: ${latestError}</p>
+        <p style="margin: 0px;">GitFlowy Error: ${latestError}.</p>
+        <a href="https://imtiazraqib.github.io/GitFlowy/" target="_blank" rel="noopener noreferrer">Click here to learn how.</a>
       </div>
       <div style="padding: 2px 10px; background: #0E402D; border-radius: 4px; color: white;">
           <p style="margin: 0px;">Powered by GitFlowy</p>
