@@ -154,9 +154,16 @@ async function render() {
 
   if (latestError) {
     const err = document.createElement("div");
-    err.className = "gf-panel";
+    err.className = "Box-header d-flex flex-justify-between align-items-center";
     err.dataset.gf = "true";
-    err.textContent = `GitFlowy: ${latestError}`;
+    err.innerHTML = `
+      <div class="color-fg-danger">
+        <p style="margin: 0px;">GitFlowy Error: ${latestError}</p>
+      </div>
+      <div style="padding: 2px 10px; background: #0E402D; border-radius: 4px; color: white;">
+          <p style="margin: 0px;">Powered by GitFlowy</p>
+      </div>
+    `;
     prListBox.parentElement.insertBefore(err, prListBox);
     return;
   }
