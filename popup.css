@@ -39,3 +39,25 @@ text-decoration: none;
 .footer a:hover {
 text-decoration: underline;
 }
+
+.header-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.help-link {
+  text-decoration: none;
+  color: #0E402D;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.help-link:hover {
+  background: rgba(14, 64, 45, 0.12);
+  transform: translateY(-1px);
+}
