@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GitFlowy — Set up your GitHub PAT</title>
+
+    <!-- Header font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <main class="wrap">
+      <header>
+        <div class="brand">
+          <h1>GitFlowy</h1>
+          <p class="subtitle">
+            Create a fine-grained GitHub Personal Access Token (PAT) with
+            <strong>read-only</strong> access so GitFlowy can check your PR
+            review backlog and keep reviews moving.
+          </p>
+        </div>
+        <div class="pill">🔒 Stored locally in Chrome storage</div>
+      </header>
+
+      <section class="grid">
+        <!-- Left: Steps -->
+        <div class="card">
+          <div class="inner">
+            <h2 class="section-title">Set up your token</h2>
+
+            <ol class="steps">
+              <li>
+                Open GitHub <strong>Developer settings</strong> →
+                <strong>Personal access tokens</strong> →
+                <strong>Fine-grained tokens</strong>.
+              </li>
+              <li>
+                Click <strong>Generate new token</strong>. Name it
+                <span class="kbd">GitFlowy</span> and set an expiration
+                (recommended).
+              </li>
+              <li>
+                Choose where it applies:
+                <strong>All repositories</strong> or limit to a specific
+                <strong>org/repo</strong>.
+              </li>
+              <li>
+                Under <strong>Repository permissions</strong>, give
+                <strong>read</strong> access needed to list pull requests and
+                review status (keep it minimal / least privilege).
+              </li>
+              <li>
+                Click <strong>Generate token</strong>, then
+                <strong>copy it immediately</strong> — GitHub won’t show it
+                again.
+              </li>
+              <li>
+                Paste it into the GitFlowy popup under
+                <strong>GitHub token</strong>, set your
+                <strong>urgency threshold</strong> (default
+                <span class="kbd">24</span> hours), then hit
+                <strong>Save</strong>.
+              </li>
+            </ol>
+
+            <div class="callout" role="note" aria-label="Security note">
+              <div class="icon">🛡️</div>
+              <div>
+                <strong>Security tip:</strong> treat your PAT like a password.
+                If you ever suspect it’s exposed, revoke it in GitHub settings
+                and generate a new one.
+              </div>
+            </div>
+
+            <div class="actions">
+              <a
+                class="btn primary"
+                href="https://github.com/settings/personal-access-tokens/new"
+                target="_blank"
+                rel="noreferrer"
+              >
+                → Generate fine-grained token
+              </a>
+              <a
+                class="btn secondary"
+                href="https://github.com/settings/tokens"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Manage / revoke tokens
+              </a>
+            </div>
+
+            <p class="muted">
+              GitFlowy only uses this token to read repository + PR data so it
+              can show your traffic-light status and highlight stale PRs.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Quick checklist -->
+        <aside class="card right">
+          <div class="inner">
+            <div class="mini">
+              <header>
+                <h3>Quick checklist</h3>
+              </header>
+              <div class="body">
+                Before you click “Generate token”, make sure you:
+                <ul class="checklist">
+                  <li>
+                    <span class="dot">✓</span
+                    ><span>Use a fine-grained token (not classic).</span>
+                  </li>
+                  <li>
+                    <span class="dot">✓</span
+                    ><span>Set an expiration (recommended).</span>
+                  </li>
+                  <li>
+                    <span class="dot">✓</span
+                    ><span
+                      >Limit scope to the org/repo you want (optional).</span
+                    >
+                  </li>
+                  <li>
+                    <span class="dot">✓</span
+                    ><span
+                      >Grant <strong>read-only</strong> permissions needed for
+                      PR visibility.</span
+                    >
+                  </li>
+                  <li>
+                    <span class="dot">✓</span
+                    ><span>Copy the token once — you won’t see it again.</span>
+                  </li>
+                </ul>
+
+                <div class="divider"></div>
+
+                <div>
+                  In GitFlowy:
+                  <div
+                    style="
+                      margin-top: 8px;
+                      display: flex;
+                      flex-direction: column;
+                      gap: 8px;
+                    "
+                  >
+                    <div>Token field: <span class="kbd">ghp_…</span></div>
+                    <div>
+                      Threshold: <span class="kbd">24</span> hours (or your
+                      preference)
+                    </div>
+                    <div>Then click <span class="kbd">Save</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="muted" style="margin-top: 12px">
+              If your org uses SSO, GitHub may prompt you to authorize the token
+              for that org after creation.
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <div class="footer">
+        GitFlowy — clear your PR backlog with traffic-light precision.
+      </div>
+    </main>
+  </body>
+</html>

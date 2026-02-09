@@ -1,0 +1,308 @@
+:root {
+  --brand: #0e402d;
+  --ink: #122018;
+  --muted: #5d6c64;
+  --bg: #f7faf8;
+  --card: #ffffff;
+  --border: rgba(14, 64, 45, 0.14);
+  --shadow: 0 14px 40px rgba(14, 64, 45, 0.14);
+  --radius: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  color: var(--ink);
+  background:
+    radial-gradient(
+      900px 400px at 20% 10%,
+      rgba(14, 64, 45, 0.14),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 400px at 80% 20%,
+      rgba(14, 64, 45, 0.1),
+      transparent 55%
+    ),
+    linear-gradient(180deg, #eef5f1, var(--bg));
+  min-height: 100vh;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 18px 56px;
+}
+
+header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+h1 {
+  margin: 0;
+  font-family: "Protest Riot", system-ui;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.05;
+  color: var(--brand);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15.5px;
+  line-height: 1.45;
+  max-width: 60ch;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(14, 64, 45, 0.08);
+  color: var(--brand);
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.85fr;
+  gap: 18px;
+  margin-top: 16px;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  header {
+    flex-direction: column;
+  }
+  .pill {
+    align-self: flex-start;
+  }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.card .inner {
+  padding: 18px;
+}
+
+.section-title {
+  margin: 0 0 10px 0;
+  font-family: "Protest Riot", system-ui;
+  font-weight: 400;
+  color: var(--brand);
+  font-size: 26px;
+  letter-spacing: 0.2px;
+}
+
+.steps {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--ink);
+}
+.steps li {
+  margin: 10px 0;
+  line-height: 1.45;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 10px 0 0;
+}
+
+.callout {
+  margin-top: 14px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(14, 64, 45, 0.2);
+  background: rgba(14, 64, 45, 0.06);
+  color: var(--ink);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.callout strong {
+  color: var(--brand);
+}
+.callout .icon {
+  font-size: 16px;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.btn {
+  appearance: none;
+  border: 0;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 11px 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease;
+  user-select: none;
+}
+
+.btn.primary {
+  background: var(--brand);
+  color: white;
+  box-shadow: 0 12px 26px rgba(14, 64, 45, 0.28);
+}
+.btn.primary:hover {
+  transform: translateY(-1px);
+}
+.btn.primary:active {
+  transform: translateY(0px);
+}
+
+.btn.secondary {
+  background: rgba(14, 64, 45, 0.07);
+  color: var(--brand);
+  border: 1px solid rgba(14, 64, 45, 0.2);
+}
+.btn.secondary:hover {
+  background: rgba(14, 64, 45, 0.1);
+}
+
+.right .inner {
+  padding: 18px;
+}
+
+.mini {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 64, 45, 0.06),
+    rgba(14, 64, 45, 0.02)
+  );
+}
+
+.mini header {
+  margin: 0;
+  padding: 14px 14px 10px;
+  display: block;
+}
+
+.mini h3 {
+  margin: 0;
+  font-family: "Protest Riot", system-ui;
+  font-weight: 400;
+  color: var(--brand);
+  font-size: 22px;
+}
+
+.mini .body {
+  padding: 12px 14px 14px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.checklist {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.checklist li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.checklist .dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: rgba(14, 64, 45, 0.1);
+  border: 1px solid rgba(14, 64, 45, 0.22);
+  display: grid;
+  place-items: center;
+  color: var(--brand);
+  font-weight: 900;
+  flex: 0 0 auto;
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.kbd {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  background: rgba(14, 64, 45, 0.07);
+  border: 1px solid rgba(14, 64, 45, 0.16);
+  padding: 2px 7px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: var(--brand);
+  white-space: nowrap;
+}
+
+.footer {
+  margin-top: 18px;
+  text-align: center;
+  color: rgba(18, 32, 24, 0.55);
+  font-size: 13px;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(14, 64, 45, 0.12);
+  margin: 14px 0 12px;
+}
